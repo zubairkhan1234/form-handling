@@ -1,17 +1,79 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+function App() {
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+  const [fullName, setFullName] = useState({
+    fname: '',
+    lname: ''
+  })
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+  const [showResult, setShowResult] = useState({
+    fname: "",
+    lname: ""
+  })
+
+
+
+  const formName = (e) => {
+
+    var value = e.target.value
+    var name = e.target.name
+    // console.log(e.target.name)
+    // console.log(e.target.value)
+
+    setFullName((preval) => {
+
+      if (name === 'fname') {
+        return ({
+
+          fname: value,
+          lname: preval.lname
+        });
+
+      } else if (name === 'lname') {
+        return ({
+
+          fname: preval.fname,
+          lname: value
+        });
+
+      }
+    })
+
+  }
+
+  const formsubmit = (e) => {
+
+    e.preventDefault()
+    setShowResult(fullName)
+    alert("Your form has been submitted")
+
+
+
+  }
+  return (
+    <>
+
+      <form onSubmit={formsubmit}>
+        <input type="text"
+          onChange={formName}
+          placeholder="First Name"
+          value={fullName.fname}
+          name="fname" />
+        <input type="text"
+          onChange={formName}
+          placeholder="Last Name"
+          value={fullName.lname}
+          name="lname" />
+        <button type="submit">Submit</button>
+      </form>
+      <h1>This is {showResult.fname} {showResult.lname}</h1>
+
+
+    </>
+  )
+
+}
+
+
+ReactDOM.render(<App />, document.querySelector('#root'))
